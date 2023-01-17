@@ -1,10 +1,11 @@
 ﻿#include <iostream>
 #include <ctime>
 #include <conio.h>
+#include <fstream>
 
 using namespace std; 
 
-int easy[8][8]; //20 min
+int easy[8][8]; //10 min
 int medium[16][16]; // 40 min
 int hard[30][16]; //99 min
 
@@ -47,8 +48,37 @@ void showBoardH()
 	}
 }
 
+void assignBomb(int bomb, int a, int b)
+{
+	int bombCount = 0;
+	while (bomb > bombCount)
+	{
+		int x = rand() % (a-1);
+		int y = rand() % (b-1);
+
+		if (easy[x][y] == 0)
+		{
+			easy[x][y] = 1;
+			bombCount++;
+		}
+		else if (medium[x][y] == 0)
+		{
+			medium[x][y] = 1;
+			bombCount++;
+		}
+		else if (hard[x][y] == 0)
+		{
+			hard[x][y] = 1;
+			bombCount++;
+		}
+	}
+}
+
+void;
+
 int main()
 {
+	srand(time(NULL));
 	setlocale(LC_CTYPE, "Polish");
 
 	int in, inB;
@@ -81,23 +111,42 @@ int main()
 				{
 				case 1:
 
-					showBoardE();
-					system("pause");
-					cout << endl;
-					break;
+					assignBomb(10, 8, 8);
+
+					//while ()
+					{
+						system("cls");
+						showBoardE();
+						system("pause");
+						cout << endl;
+					}
+						break;
 
 				case 2:
 
-					showBoardM();
-					system("pause");
-					cout << endl;
+					assignBomb(40, 16, 16);
+
+					//while ()
+					{
+						system("cls");
+						showBoardM();
+						system("pause");
+						cout << endl;
+					}
 					break;
 
 				case 3:
 					
-					showBoardH();
-					system("pause");
-					cout << endl;
+
+					assignBomb(99, 30, 16);
+
+					//while ()
+					{
+						system("cls");
+						showBoardM();
+						system("pause");
+						cout << endl;
+					}
 					break;
 
 				case 4:
