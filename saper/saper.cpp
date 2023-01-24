@@ -195,7 +195,7 @@ void showGameMenu()
 			printf("\nWybierz poziom trudności:\n");
 			printf("1. Łatwy - 8x8\n");
 			printf("2. Średni - 16x16\n");
-			printf("3. Trudny - 30 x 16\n");
+			printf("3. Trudny - 30 x 30\n");
 			printf("4. Powrót\n\n");
 
 			scanf_s("%d", &inB);
