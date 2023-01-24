@@ -171,7 +171,7 @@ void preGame(char realBorad[][maxSide], char myBoard[][maxSide])
 	return;
 }
 
-//głowne menu
+//główne menu
 void showGameMenu()
 {
 	int in, inB; //input
@@ -371,6 +371,13 @@ void playGame()
 		printf("Aktualny stan planszy: \n");
 		showBoard(myBoard);
 		makeMove(&x, &y);
+
+		//zapewnia, że pierwszy ruch jest bezpieczny
+		if (currentMoveCount == 0)
+		{
+			if (isMine(x, y, realBoard) == true)
+				moveMine(x, y, realBoard);
+		}
 
 		currentMoveCount++;
 
