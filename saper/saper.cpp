@@ -220,6 +220,12 @@ void showGameMenu()
 				SIDE = 30;
 				MINES = 99;
 			}
+
+			if (inB == 4)
+			{
+				break;
+			}
+
 			return;
 
 			break;
@@ -342,7 +348,7 @@ bool playGameUntil(char myBoard[][maxSide], char realBoard[][maxSide], int mines
 	}
 }
 
-//
+//gra w sapera
 void playGame()
 {
 	bool gameOver = false;
