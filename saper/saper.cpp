@@ -3,9 +3,9 @@
 
 using namespace std;
 
-#define easy 0
-#define intermediate 1
-#define hard 2
+#define easy 1
+#define intermediate 2
+#define hard 3
 #define maxSide 30
 #define maxMine 99
 #define maxMove 801 //30 * 30 - 99
@@ -39,21 +39,22 @@ void showBoard(char myBoard[][maxSide])
 }
 
 //losowo rozstawia miny na planszy
-void assignBomb(int mines[][2], char realBoard[][maxSide])
+void assignMine(int mines[][2], char realBoard[][maxSide])
 {
 	bool mark[maxSide * maxSide];
 
 	memset(mark, false, sizeof(mark));
 
-	for (i = 0; i < MINES);
+	for (int i = 0; i < MINES; )
 	{
 		int random = rand() % (SIDE * SIDE);
 		int x = random / SIDE;
-		int y = random % side;
-		if (mark[mark] == false)
+		int y = random % SIDE;
+
+		if (mark[random] == false)
 		{
 			mines[i][0] = x;
-			mines[0][1] = y;
+			mines[i][1] = y;
 
 			realBoard[mines[i][0]][mines[i][1]] = '*';
 			mark[random] = true;
@@ -80,16 +81,16 @@ bool isMine(int x, int y, char board[][maxSide])
 		return(false);
 }
 
-//pozwala zrobić ruch
+//pozwala wykonać ruch
 void makeMove(int* x, int* y)
 {
-	printf("Wprowadź swój ruch (rząd, kolumna) ->  ");
+	printf("Wprowadź swój ruch (rząd, kolumna)\n");
 	scanf_s("%d %d", x, y);
 	return;
 };
 
 //funkcja licząca, ile komórek jest obok wybranej przez gracza
-int howManyCells(int x, int y, int mines[][2], char realBoard[][maxSide])
+int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][maxSide])
 {
 	int i;
 	int count = 0;
@@ -149,47 +150,31 @@ int howManyCells(int x, int y, int mines[][2], char realBoard[][maxSide])
 		if (isMine(x, y + 1, realBoard) == true)
 			count++;
 	}
+
+	return(count);
 }
 
-
-
-//submenu do wybierania poziomu trudności 
-void setDiff()
+//funkcja inicjalizująca grę, tworząc losowo generowaną planszę
+//i zaznacza wszystkie pola na planszy jako niewiadome
+void preGame(char realBorad[][maxSide], char myBoard[][maxSide])
 {
-	int in; //input
+	srand(time(NULL));
 
-	printf("\nWybierz poziom trudności:\n");
-	printf("1. Łatwy - 8x8\n");
-	printf("2. Średni - 16x16\n");
-	printf("3. Trudny - 30 x 16\n");
-	printf("4. Powrót\n\n");
-
-	scanf_s("%d", &in);
-
-	if (in == easy)
+	for (int i = 0; i < SIDE; i++)
 	{
-		SIDE = 8;
-		MINES = 20;
+		for (int j = 0; j < SIDE; j++)
+		{
+			myBoard[i][j] = realBorad[i][j] = '-';
+		}
 	}
 
-	if (in == intermediate)
-	{
-		SIDE = 16;
-		MINES = 40;
-	}
-
-	if (in == hard)
-	{
-		SIDE = 30;
-		MINES = 99;
-	}
 	return;
 }
 
 //głowne menu
 void showGameMenu()
 {
-	int in; //input
+	int in, inB; //input
 	while (1)
 	{
 		system("cls");
@@ -198,7 +183,6 @@ void showGameMenu()
 		cout << "-------------\n\n";
 
 		cout << "1. Zagraj w nową grę\n";
-		//cout << "2. Wczytaj grę\n";
 		cout << "2. Wyjdź\n\n";
 
 		cin >> in;
@@ -207,7 +191,36 @@ void showGameMenu()
 		{
 		case 1:
 
-			setDiff();
+			//wybieranie trudności
+			printf("\nWybierz poziom trudności:\n");
+			printf("1. Łatwy - 8x8\n");
+			printf("2. Średni - 16x16\n");
+			printf("3. Trudny - 30 x 16\n");
+			printf("4. Powrót\n\n");
+
+			scanf_s("%d", &inB);
+
+			if (inB == easy)
+			{
+				system("cls");
+				SIDE = 8;
+				MINES = 20;
+			}
+
+			if (inB == intermediate)
+			{
+				system("cls");
+				SIDE = 16;
+				MINES = 40;
+			}
+
+			if (inB == hard)
+			{
+				system("cls");
+				SIDE = 30;
+				MINES = 99;
+			}
+			return;
 
 			break;
 
@@ -219,9 +232,160 @@ void showGameMenu()
 	}
 }
 
+//przesuwa minę w wolne miejsce
+void moveMine(int x, int y, char board[][maxSide])
+{
+	for (int i = 0; i, SIDE; i++)
+	{
+		for (int j = 0; j < SIDE; j++)
+		{
+			if (board[i][j] != '*')
+			{
+				board[i][j] = '*';
+				board[x][y] = '-';
+				return;
+			}
+		}
+	}
+}
+
+//gra w sapera - funkcja rekurencyjna
+bool playGameUntil(char myBoard[][maxSide], char realBoard[][maxSide], int mines[][2], int x, int y, int* movesLeft)
+{
+	if (myBoard[x][y] != '-')
+		return(false);
+
+	int i, j;
+
+	//odsłonięcie pola z miną
+	if (realBoard[x][y] == '*')
+	{
+		myBoard[x][y] = '*';
+
+		for (i = 0; i < MINES; i++)
+			myBoard[mines[i][0]][mines[i][1]] = '*';
+
+		system("cls");
+		showBoard(myBoard);
+		printf("\nPrzegrałeś!\n");
+		return(true);
+	}
+
+	else
+	{
+		//oblicza ilość min obok odsłoniętego pola, i wyświetla na planszy
+		int count = howManyCeMinesNextTo(x, y, mines, realBoard);
+		(*movesLeft)--;
+
+		myBoard[x][y] = count + '0';
+
+		if (!count)
+		{
+			//komórka na północ
+			if (isPlace(x - 1, y) == true)
+			{
+				if (isMine(x - 1, y, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x - 1, y, movesLeft);
+			}
+
+			//komórka na pólnocny-zachód
+			if (isPlace(x - 1, y - 1) == true)
+			{
+				if (isMine(x - 1, y - 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x - 1, y - 1, movesLeft);
+			}
+
+			//komórka na pólnocny-wschód
+			if (isPlace(x - 1, y + 1) == true)
+			{
+				if (isMine(x - 1, y + 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x - 1, y + 1, movesLeft);
+			}
+
+			//komórka na południe
+			if (isPlace(x + 1, y) == true)
+			{
+				if (isMine(x + 1, y, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x + 1, y, movesLeft);
+			}
+
+			//komórka na południowy-zachód
+			if (isPlace(x - 1, y - 1) == true)
+			{
+				if (isMine(x + 1, y - 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x + 1, y - 1, movesLeft);
+			}
+
+			//komórka na południowy-wschód
+			if (isPlace(x + 1, y + 1) == true)
+			{
+				if (isMine(x + 1, y + 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x + 1, y + 1, movesLeft);
+			}
+
+			//komórka na zachód
+			if (isPlace(x, y - 1) == true)
+			{
+				if (isMine(x, y - 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x, y - 1, movesLeft);
+			}
+
+			//komórka na wschód
+			if (isPlace(x, y + 1) == true)
+			{
+				if (isMine(x, y + 1, realBoard) == false)
+					playGameUntil(myBoard, realBoard, mines, x, y + 1, movesLeft);
+			}
+		}
+
+		return(false);
+	}
+}
+
+void playGame()
+{
+	bool gameOver = false;
+
+	char realBoard[maxSide][maxSide], myBoard[maxSide][maxSide];
+
+	int movesLeft = SIDE * SIDE - MINES, x, y;
+	int mines[maxMine][2];
+
+	preGame(realBoard, myBoard);
+
+	assignMine(mines, realBoard);
+
+	//gra się do momentu wygranej/odkrycia miny
+	
+	int currentMoveCount = 0;
+	while (gameOver == false)
+	{
+		system("cls");
+		printf("Aktualny stan planszy: \n");
+		showBoard(myBoard);
+		makeMove(&x, &y);
+
+		currentMoveCount++;
+
+		gameOver = playGameUntil(myBoard, realBoard, mines, x, y, &movesLeft);
+
+		if ((gameOver == false) && (movesLeft == 0))
+		{
+			cout << "Wygrałeś!\n";
+			gameOver = true;
+		}
+	}
+	return;
+
+}
+
 int main()
 {
 	setlocale(LC_CTYPE, "Polish");
 
 	showGameMenu();
+
+	playGame();
+
+	return(0);
 }
