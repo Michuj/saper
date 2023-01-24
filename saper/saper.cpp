@@ -342,6 +342,7 @@ bool playGameUntil(char myBoard[][maxSide], char realBoard[][maxSide], int mines
 	}
 }
 
+//
 void playGame()
 {
 	bool gameOver = false;
