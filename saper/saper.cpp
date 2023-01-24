@@ -1,169 +1,228 @@
-﻿#include <iostream>
-#include <ctime>
-#include <conio.h>
+﻿#include<iostream>
 #include <fstream>
 
 using namespace std; 
 
-int easy[8][8]; //10 min
-int medium[16][16]; // 40 min
-int hard[30][16]; //99 min
+#define easy 0
+#define intermediate 1
+#define hard 2
+#define maxSide 30
+#define maxMine 99
+#define maxMove 801 //30 * 30 - 99
 
-void showBoardE()
+int SIDE; //rozmiar pola, każde to kwadrat, więc starczy jedna zmienna
+int MINES;	//ilość min
+
+//x = rząd, y = kolumna
+
+//pokazuje akualną planszę gry
+void showBoard(char myBoard[][maxSide])
 {
-	cout << " 1 2 3 4 5 6 7 8\n";
-	for (int i = 0; i < 8; i++)
+	int i, j;
+
+	printf(" ");
+
+	for (i = 0; i < SIDE; i++)
+		printf("% d ", i);
+
+		printf("\n\n");
+
+	for (i = 0; i < SIDE; i++)
 	{
-		cout << i + 1 << " ";
-		for (int j = 0; j < 8; j++)
-		{
-		}
-		cout << endl;
+		printf("% d ", i);
+
+		for (j = 0; j < SIDE; j++)
+			printf("%c ", myBoard[i][j]);
+		printf("\n");
 	}
+	return;
 }
 
-void showBoardM()
-{
-	cout << " 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16\n";
-	for (int i = 0; i < 16; i++)
-	{
-		cout << i + 1 << " ";
-		for (int j = 0; j < 16; j++)
-		{
-		}
-		cout << endl;
-	}
-}
-
-void showBoardH()
-{
-	cout << " 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30\n";
-	for (int i = 0; i < 30; i++)
-	{
-		cout << i + 1 << " ";
-		for (int j=0;j<30;j++)
-		{
-		}
-		cout << endl;
-	}
-}
-
-void assignBomb(int bomb, int a, int b)
+/*void assignBomb(int bomb, int a, int b)
 {
 	int bombCount = 0;
 	while (bomb > bombCount)
 	{
-		int x = rand() % (a-1);
-		int y = rand() % (b-1);
+		int BX = rand() % (a-1);
+		int yA = rand() % (b-1);
 
-		if (easy[x][y] == 0)
+		if (easy[xB][y] == 0)
 		{
-			easy[x][y] = 1;
+			easy[xB][y] = 1;
 			bombCount++;
 		}
-		else if (medium[x][y] == 0)
+		else if (intermediate[xB][y] == 0)
 		{
-			medium[x][y] = 1;
+			intermediate[xB][y] = 1;
 			bombCount++;
 		}
-		else if (hard[x][y] == 0)
+		else if (hard[xB][y] == 0)
 		{
-			hard[x][y] = 1;
+			hard[xB][y] = 1;
 			bombCount++;
 		}
 	}
+}*/
+
+//sprawda, czy podane pole znajduje się na planszy
+bool isPlace(int x, int y)
+{
+	return (x >= 0) && (x < SIDE) &&
+		(y >= 0) && (y < SIDE);
 }
 
-void;
-
-int main()
+//sprawdza, czy podane pole jest miną
+bool isMine(int x, int y, char board[][maxSide])
 {
-	srand(time(NULL));
-	setlocale(LC_CTYPE, "Polish");
+	if (board[x][y] == '*')
+		return (true);
+	else
+		return(false);
+}
 
-	int in, inB;
+//pozwala zrobić ruch
+void makeMove(int* x, int* y)
+{
+	printf("Wprowadź swój ruch (rząd, kolumna) ->  ");
+	scanf_s("%d %d", x, y);
+	return;
+};
 
+//funkcja licząca, ile komórek jest obok wybranej przez gracza
+/*int howManyCells(int x, int y, int mines[][2], char realBoard[][maxSide])
+{
+	int i;
+	int count = 0;
+
+	//komórka na północ
+	if (isPlace(x - 1, y) == true)
+	{
+		if (isMine(x - 1, y, realBoard) == true)
+			count++;
+	}
+
+	//komórka na północny-zachód
+	if (isPlace(x - 1, y - 1) == true)
+	{
+		if (isMine(x - 1, y - 1, realBoard) == true)
+			count++;
+	}
+
+	//komórka na północny-wschód
+	if (isPlace(x - 1, y + 1) == true)
+	{
+		if (isMine(x - 1, y, realBoard) == true)
+			count++;
+	}
+
+	//komórka na południe
+	if (isPlace(x + 1, y) == true)
+	{
+		if (isMine(x + 1, y, realBoard) == true)
+			count++;
+	}
+
+	//komórka na południowy-zachód
+	if (isPlace(x + 1, y - 1) == true)
+	{
+		if (isMine(x + 1, y - 1, realBoard) == true)
+			count++;
+	}
+	
+	//komórka na południowy-wschód
+	if (isPlace(x + 1, y + 1) == true)
+	{
+		if (isMine(x - 1, y, realBoard) == true)
+			count++;
+	}
+	
+	//komórka na zachód
+	if (isPlace(x, y - 1) == true)
+	{
+		if (isMine(x, y - 1, realBoard) == true)
+			count++;
+	}
+
+	//komórka na wschód
+	if (isPlace(x, y + 1) == true)
+	{
+		if (isMine(x, y + 1, realBoard) == true)
+			count++;
+	}
+}*/
+
+
+
+//pod menu do wybierania poziomu trudności 
+void setDiff()
+{
+	int in; //input
+
+	printf("\nWybierz poziom trudności:\n");
+	printf("1. Łatwy - 8x8\n");
+	printf("2. Średni - 16x16\n");
+	printf("3. Trudny - 30 x 16\n");
+	printf("4. Powrót\n\n");
+	
+	scanf_s("%d", &in);
+	
+	if (in == easy)
+	{
+		SIDE = 8;
+		MINES = 20;
+	}
+
+	if (in == intermediate)
+	{
+		SIDE = 16;
+		MINES = 40;
+	}
+
+	if (in == hard)
+	{
+		SIDE = 30;
+		MINES = 99;
+	}
+}
+
+//głowne menu
+void showGameMenu()
+{
+	int in; //input
 	while (1)
 	{
 		system("cls");
 		cout << "-------------\n";
 		cout << "--- SAPER ---\n";
-		cout << "-------------\n" << endl;
+		cout << "-------------\n\n";
 
 		cout << "1. Zagraj w nową grę\n";
-		cout << "2. Wczytaj grę\n";
-		cout << "3. Wyjdź\n" << endl;
+		//cout << "2. Wczytaj grę\n";
+		cout << "2. Wyjdź\n\n";
+
 		cin >> in;
 
 		switch (in)
 		{
 		case 1:
-		
-			system("cls");
-				cout << "Wybierz poziom trudności:\n";
-				cout << "1. Łatwy - 8x8\n";
-				cout << "2. Średni - 16x16\n";
-				cout << "3. Trudny - 30 x 16\n";
-				cout << "4. Powrót\n" << endl;
-				cin >> inB;
 
-				switch (inB)
-				{
-				case 1:
+			setDiff();
 
-					assignBomb(10, 8, 8);
-
-					//while ()
-					{
-						system("cls");
-						showBoardE();
-						system("pause");
-						cout << endl;
-					}
-						break;
-
-				case 2:
-
-					assignBomb(40, 16, 16);
-
-					//while ()
-					{
-						system("cls");
-						showBoardM();
-						system("pause");
-						cout << endl;
-					}
-					break;
-
-				case 3:
-					
-
-					assignBomb(99, 30, 16);
-
-					//while ()
-					{
-						system("cls");
-						showBoardM();
-						system("pause");
-						cout << endl;
-					}
-					break;
-
-				case 4:
-
-					break;
-				}
 			break;
 
 		case 2:
-		
 
-			break;
-		
-		case 3:
-
-			return 0;
+			exit(0);
 			break;
 		}
 	}
+}
+
+int main()
+{
+	setlocale(LC_CTYPE, "Polish");
+
+	showGameMenu();
+
+	
 }
