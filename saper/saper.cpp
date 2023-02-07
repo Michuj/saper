@@ -241,7 +241,7 @@ void showGameMenu()
 //przesuwa minę w wolne miejsce
 void moveMine(int x, int y, char board[][maxSide])
 {
-	for (int i = 0; i, SIDE; i++)
+	for (int i = 0; i < SIDE; i++)
 	{
 		for (int j = 0; j < SIDE; j++)
 		{
