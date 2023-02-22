@@ -3,12 +3,12 @@
 
 using namespace std;
 
-#define EASY 1
-#define INTERMEDIATE 2
-#define HARD 3
-#define MAXSIDE 30
-#define MAXMINE 99
-#define MAXMOVE 801 //30 * 30 - 99
+#define EASY = 1;
+#define INTERMEDIATE = 2;
+#define HARD = 3;
+#define MAXSIDE = 30;
+#define MAXMINE = 99;
+#define MAXMOVE = 801;//30 * 30 - 99
 
 int Side; //rozmiar pola, każde to kwadrat, więc starczy jedna zmienna
 int Mines;	//ilość min
@@ -35,6 +35,7 @@ void showBoard(char myBoard[][MAXSIDE])
 			printf("%c ", myBoard[i][j]);
 		printf("\n");
 	}
+
 	return;
 }
 
@@ -233,6 +234,7 @@ void showGameMenu()
 		case 2:
 
 			exit(0);
+
 			break;
 		}
 	}
@@ -249,6 +251,7 @@ void moveMine(int x, int y, char board[][MAXSIDE])
 			{
 				board[i][j] = '*';
 				board[x][y] = '-';
+
 				return;
 			}
 		}
@@ -389,8 +392,8 @@ void playGame()
 			gameOver = true;
 		}
 	}
-	return;
 
+	return;
 }
 
 int main()
