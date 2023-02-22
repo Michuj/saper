@@ -3,12 +3,12 @@
 
 using namespace std;
 
-#define EASY = 1;
-#define INTERMEDIATE = 2;
-#define HARD = 3;
-#define MAXSIDE = 30;
-#define MAXMINE = 99;
-#define MAXMOVE = 801;//30 * 30 - 99
+#define EASY 1
+#define INTERMEDIATE 2
+#define HARD 3
+#define MAXSIDE 30
+#define MAXMINE 99
+#define MAXMOVE 801 //30 * 30 - 99
 
 int Side; //rozmiar pola, każde to kwadrat, więc starczy jedna zmienna
 int Mines;	//ilość min
@@ -33,6 +33,7 @@ void showBoard(char myBoard[][MAXSIDE])
 
 		for (j = 0; j < Side; j++)
 			printf("%c ", myBoard[i][j]);
+
 		printf("\n");
 	}
 
@@ -69,8 +70,7 @@ void assignMine(int mines[][2], char realBoard[][MAXSIDE])
 //sprawda, czy podane pole znajduje się na planszy
 bool isPlace(int x, int y)
 {
-	return (x >= 0) && (x < Side) &&
-		(y >= 0) && (y < Side);
+	return (x >= 0) && (x < Side) && (y >= 0) && (y < Side);
 }
 
 //sprawdza, czy podane pole jest miną
@@ -88,7 +88,7 @@ void makeMove(int* x, int* y)
 	printf("Wprowadź swój ruch (rząd, kolumna)\n");
 	scanf_s("%d %d", x, y);
 	return;
-};
+}
 
 //funkcja licząca, ile komórek jest obok wybranej przez gracza
 int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE])
@@ -155,8 +155,7 @@ int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE]
 	return(count);
 }
 
-//funkcja inicjalizująca grę, tworząc losowo generowaną planszę
-//i zaznacza wszystkie pola na planszy jako niewiadome
+//funkcja inicjalizująca grę, tworząc losowo generowaną planszę i zaznacza wszystkie pola na planszy jako niewiadome
 void preGame(char realBorad[][MAXSIDE], char myBoard[][MAXSIDE])
 {
 	srand(time(NULL));
@@ -262,6 +261,7 @@ void moveMine(int x, int y, char board[][MAXSIDE])
 bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mines[][2], int x, int y, int* movesLeft)
 {
 	if (myBoard[x][y] != '-')
+
 		return(false);
 
 	int i, j;
@@ -277,6 +277,7 @@ bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mines
 		system("cls");
 		showBoard(myBoard);
 		printf("\nPrzegrałeś!\n");
+
 		return(true);
 	}
 
@@ -366,7 +367,7 @@ void playGame()
 	assignMine(mines, realBoard);
 
 	//gra się do momentu wygranej/odkrycia miny
-	
+
 	int currentMoveCount = 0;
 	while (gameOver == false)
 	{
