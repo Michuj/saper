@@ -91,7 +91,6 @@ void makeMove(int* x, int* y)
 //funkcja licząca, ile komórek jest obok wybranej przez gracza
 int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE])
 {
-	int i;
 	int count = 0;
 
 	//komórka na północ
@@ -362,8 +361,9 @@ void playGame()
 	assignMine(mines, realBoard);
 
 	//gra się do momentu wygranej/odkrycia miny
-	
+
 	int currentMoveCount = 0;
+
 	while (gameOver == false)
 	{
 		system("cls");
@@ -388,8 +388,8 @@ void playGame()
 			gameOver = true;
 		}
 	}
-	return;
 
+	return;
 }
 
 int main()
