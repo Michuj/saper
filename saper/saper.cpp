@@ -344,6 +344,8 @@ bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mine[
 //gra w sapera
 void playGame()
 {
+	showGameMenu();
+
 	bool gameOver = false;
 
 	char realBoard[MAXSIDE][MAXSIDE], myBoard[MAXSIDE][MAXSIDE];
@@ -388,8 +390,6 @@ void playGame()
 int main()
 {
 	setlocale(LC_CTYPE, "Polish");
-
-	showGameMenu();
 
 	playGame();
 
