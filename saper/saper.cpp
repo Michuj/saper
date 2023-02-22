@@ -23,7 +23,7 @@ void showBoard(char myBoard[][MAXSIDE])
 	printf(" ");
 
 	for (i = 0; i < Side; i++)
-		printf("% d ", i);
+		printf("% d", i);
 
 	printf("\n\n");
 
