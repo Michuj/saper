@@ -253,7 +253,7 @@ bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mine[
 	if (myBoard[x][y] != '-')
 		return(false);
 
-	int i, j;
+	int i;
 
 	//odsłonięcie pola z miną
 	if (realBoard[x][y] == '*')
