@@ -36,8 +36,6 @@ void showBoard(char myBoard[][MAXSIDE])
 
 		printf("\n");
 	}
-
-	return;
 }
 
 //losowo rozstawia miny na planszy
@@ -63,8 +61,6 @@ void assignMine(int mine[][2], char realBoard[][MAXSIDE])
 			i++;
 		}
 	}
-
-	return;
 }
 
 //sprawda, czy podane pole znajduje się na planszy
@@ -87,7 +83,6 @@ void makeMove(int* x, int* y)
 {
 	printf("Wprowadź swój ruch (rząd, kolumna)\n");
 	scanf_s("%d %d", x, y);
-	return;
 }
 
 //funkcja licząca, ile min jest obok wybranej przez gracza
@@ -166,8 +161,6 @@ void preGame(char realBorad[][MAXSIDE], char myBoard[][MAXSIDE])
 			myBoard[i][j] = realBorad[i][j] = '-';
 		}
 	}
-
-	return;
 }
 
 //główne menu
@@ -390,8 +383,6 @@ void playGame()
 			gameOver = true;
 		}
 	}
-
-	return;
 }
 
 int main()
