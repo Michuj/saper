@@ -23,7 +23,7 @@ void showBoard(char myBoard[][MAXSIDE])
 	printf(" ");
 
 	for (i = 0; i < Side; i++)
-		printf("% d ", i);
+		printf("% d", i);
 
 	printf("\n\n");
 
@@ -33,8 +33,10 @@ void showBoard(char myBoard[][MAXSIDE])
 
 		for (j = 0; j < Side; j++)
 			printf("%c ", myBoard[i][j]);
+
 		printf("\n");
 	}
+
 	return;
 }
 
@@ -86,7 +88,7 @@ void makeMove(int* x, int* y)
 	printf("Wprowadź swój ruch (rząd, kolumna)\n");
 	scanf_s("%d %d", x, y);
 	return;
-};
+}
 
 //funkcja licząca, ile komórek jest obok wybranej przez gracza
 int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE])
@@ -152,8 +154,7 @@ int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE]
 	return(count);
 }
 
-//funkcja inicjalizująca grę, tworząc losowo generowaną planszę
-//i zaznacza wszystkie pola na planszy jako niewiadome
+//funkcja inicjalizująca grę, tworząc losowo generowaną planszę i zaznacza wszystkie pola na planszy jako niewiadome
 void preGame(char realBorad[][MAXSIDE], char myBoard[][MAXSIDE])
 {
 	srand(time(NULL));
@@ -231,6 +232,7 @@ void showGameMenu()
 		case 2:
 
 			exit(0);
+
 			break;
 		}
 	}
@@ -247,6 +249,7 @@ void moveMine(int x, int y, char board[][MAXSIDE])
 			{
 				board[i][j] = '*';
 				board[x][y] = '-';
+
 				return;
 			}
 		}
@@ -257,6 +260,7 @@ void moveMine(int x, int y, char board[][MAXSIDE])
 bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mines[][2], int x, int y, int* movesLeft)
 {
 	if (myBoard[x][y] != '-')
+
 		return(false);
 
 	int i, j;
@@ -272,6 +276,7 @@ bool playGameUntil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE], int mines
 		system("cls");
 		showBoard(myBoard);
 		printf("\nPrzegrałeś!\n");
+
 		return(true);
 	}
 
