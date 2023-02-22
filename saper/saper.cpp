@@ -68,8 +68,7 @@ void assignMine(int mines[][2], char realBoard[][MAXSIDE])
 //sprawda, czy podane pole znajduje się na planszy
 bool isPlace(int x, int y)
 {
-	return (x >= 0) && (x < Side) &&
-		(y >= 0) && (y < Side);
+	return (x >= 0) && (x < Side) && (y >= 0) && (y < Side);
 }
 
 //sprawdza, czy podane pole jest miną
@@ -112,7 +111,7 @@ int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE]
 	//komórka na północny-wschód
 	if (isPlace(x - 1, y + 1) == true)
 	{
-		if (isMine(x - 1, y, realBoard) == true)
+		if (isMine(x - 1, y + 1, realBoard) == true)
 			count++;
 	}
 
@@ -133,7 +132,7 @@ int howManyCeMinesNextTo(int x, int y, int mines[][2], char realBoard[][MAXSIDE]
 	//komórka na południowy-wschód
 	if (isPlace(x + 1, y + 1) == true)
 	{
-		if (isMine(x - 1, y, realBoard) == true)
+		if (isMine(x + 1, y + 1, realBoard) == true)
 			count++;
 	}
 
